@@ -1,5 +1,10 @@
 import { Types } from "mongoose";
 
+export interface IAuthProvider {
+    provider: "google" | "credentials"; 
+    providerId: string;
+}
+
 export enum Role {
     ADMIN = "ADMIN",
     RIDER = "RIDER",
@@ -22,6 +27,7 @@ export interface IUser {
     address?: string;
     isActive?: IsActive;
     role: Role;
+    auth: IAuthProvider[],
     createdAt?: Date;
     updatedAt?: Date;
 };
