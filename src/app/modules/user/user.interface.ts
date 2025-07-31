@@ -2,13 +2,8 @@ import { Types } from "mongoose";
 
 export enum Role {
     ADMIN = "ADMIN",
-    USER = "USER",
+    RIDER = "RIDER",
     DRIVER = "DRIVER",
-}
-
-export interface IAuthProvider {
-    provider: string;
-    providerId: string;
 }
 
 export enum IsActive {
@@ -25,11 +20,8 @@ export interface IUser {
     phone?: string;
     picture?: string;
     address?: string;
-    isDeleted?: boolean;
     isActive?: IsActive;
-    isVerified?: boolean;
     role: Role;
-    auths: IAuthProvider[]
-    bookings?: Types.ObjectId[]
-    drivers?: Types.ObjectId[]
-}
+    createdAt?: Date;
+    updatedAt?: Date;
+};
