@@ -36,7 +36,6 @@ const crediantialsLogin = (req: Request, res: Response, next: NextFunction) => {
   })(req, res, next);
 };
 
-
 const getNewAccessToken = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const refreshToken = req.cookies.refreshToken;

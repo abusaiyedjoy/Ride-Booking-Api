@@ -49,6 +49,20 @@ const getAllUsers = async () => {
   };
 };
 
+const getSingleUser = async (id: string) => {
+    const user = await User.findById(id).select("-password");
+    return {
+        data: user
+    }
+};
+const getMe = async (userId: string) => {
+    const user = await User.findById(userId).select("-password");
+    return {
+        data: user
+    }
+};
+
+
 const updateUser = async (
   userId: string,
   payload: Partial<IUser>,
@@ -61,7 +75,7 @@ const updateUser = async (
   }
 
   if (payload.role) {
-    if (decodedToken.role === Role.USER || decodedToken.role === Role.DRIVER) {
+    if (decodedToken.role === Role.RIDER || decodedToken.role === Role.DRIVER) {
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
 
@@ -70,8 +84,8 @@ const updateUser = async (
     }
   }
 
-  if (payload.isActive || payload.isDeleted || payload.isVerified) {
-    if (decodedToken.role === Role.USER || decodedToken.role === Role.DRIVER) {
+  if (payload.isActive ) {
+    if (decodedToken.role === Role.DRIVER || decodedToken.role === Role.RIDER) {
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
   }
@@ -92,5 +106,7 @@ const updateUser = async (
 export const UserService = {
   createUser,
   getAllUsers,
+  getSingleUser,
+  getMe,
   updateUser,
 };
