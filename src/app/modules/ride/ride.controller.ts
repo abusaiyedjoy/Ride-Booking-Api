@@ -11,7 +11,11 @@ export const RideController = {
   requestRide: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { pickupLocation, destinationLocation } = req.body;
-      const riderUserId = new Types.ObjectId((req.user as any)._id);
+      const riderUserId = new Types.ObjectId(req.user?.userId);
+
+      if(!riderUserId){
+        throw new AppError(StatusCodes.NOT_FOUND, "Rider id not found")
+      }
 
       const newRide = await RideService.requestRide(
         riderUserId,

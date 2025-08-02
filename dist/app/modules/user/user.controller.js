@@ -10,41 +10,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
-const user_sevice_1 = require("./user.sevice");
 const sendResponse_1 = require("../../utils/sendResponse");
 const http_status_codes_1 = require("http-status-codes");
-const createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield user_sevice_1.UserService.createUser(req.body);
+const catchAsync_1 = require("../../utils/catchAsync");
+const user_service_1 = require("./user.service");
+const createUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_service_1.UserService.createUser(req.body);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_codes_1.StatusCodes.CREATED,
         success: true,
         message: "User created successfully",
         data: user,
     });
-});
-const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const users = yield user_sevice_1.UserService.getAllUsers();
+}));
+const getAllUsers = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const users = yield user_service_1.UserService.getAllUsers();
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_codes_1.StatusCodes.OK,
         success: true,
         message: "Users fetched successfully",
         data: users,
     });
-});
-const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+}));
+const getMe = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const decodedToken = req.user;
+    const result = yield user_service_1.UserService.getMe(decodedToken.userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        message: "Your profile Retrieved Successfully",
+        data: result.data
+    });
+}));
+const getSingleUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const result = yield user_service_1.UserService.getSingleUser(id);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.CREATED,
+        message: "User Retrieved Successfully",
+        data: result.data
+    });
+}));
+const updateUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     const payload = req.body;
     const decodedToken = req.user;
-    const user = yield user_sevice_1.UserService.updateUser(userId, payload, decodedToken);
+    const user = yield user_service_1.UserService.updateUser(userId, payload, decodedToken);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_codes_1.StatusCodes.OK,
         success: true,
         message: "User updated successfully",
         data: user,
     });
-});
+}));
 exports.UserController = {
     createUser,
     getAllUsers,
+    getSingleUser,
+    getMe,
     updateUser
 };

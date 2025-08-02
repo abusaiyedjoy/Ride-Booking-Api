@@ -79,7 +79,7 @@ const updateUser = async (
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
 
-    if (decodedToken.role === Role.ADMIN) {
+    if (decodedToken.role === Role.ADMIN || decodedToken.role === Role.SUPER_ADMIN) {
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
   }

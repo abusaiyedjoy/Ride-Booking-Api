@@ -10,6 +10,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
 import { JwtPayload } from "jsonwebtoken";
 import { envVars } from "../../config/env";
+import { IUser } from "../user/user.interface";
 
 const crediantialsLogin = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", async (err: any, user: any, info: any) => {
@@ -152,13 +153,13 @@ const googleCallbackController = catchAsync(async (req: Request, res: Response, 
         redirectTo = redirectTo.slice(1)
     }
 
-    const user = req.user;
+    const user = req.user ;
 
     if (!user) {
         throw new AppError(StatusCodes.NOT_FOUND, "User Not Found")
     }
 
-    const tokenInfo = createUserTokens(user)
+    const tokenInfo = createUserTokens(user )
 
     setAuthCookie(res, tokenInfo)
 

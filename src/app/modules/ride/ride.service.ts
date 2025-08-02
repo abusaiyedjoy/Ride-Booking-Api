@@ -9,10 +9,7 @@ import { Driver } from "../driverProfile/driver.model";
 import { IDriver } from "../driverProfile/driver.interface";
 
 export const RideService = {
-  /**
-   * Rider requests a new ride.
-   * Enforces: A rider can only have one active ride (requested, accepted, picked_up, in_transit) at a time.
-   */
+ 
   requestRide: async (
     riderId: Types.ObjectId,
     pickupLocation: {
@@ -128,10 +125,6 @@ export const RideService = {
     return ride;
   },
 
-  /**
-   * Driver updates the status of an accepted ride.
-   * Valid transitions: accepted -> picked_up -> in_transit -> completed.
-   */
   updateRideStatus: async (
     rideId: Types.ObjectId,
     driverId: Types.ObjectId,
@@ -199,9 +192,6 @@ export const RideService = {
     return ride;
   },
 
-  /**
-   * Rider cancels a ride.
-   */
   cancelRide: async (
     rideId: Types.ObjectId,
     riderId: Types.ObjectId,
@@ -260,9 +250,6 @@ export const RideService = {
     return ride;
   },
 
-  /**
-   * Admin updates any ride status.
-   */
   adminUpdateRideStatus: async (
     rideId: Types.ObjectId,
     newStatus:
@@ -309,9 +296,7 @@ export const RideService = {
     return ride;
   },
 
-  /**
-   * Get a rider's ride history.
-   */
+
   getRiderRideHistory: async (riderId: Types.ObjectId): Promise<IRide> => {
     const riderUser = await User.findById(riderId);
     if (!riderUser || riderUser.role !== Role.RIDER) {
@@ -320,9 +305,7 @@ export const RideService = {
     return Ride.find({ riderId: riderId }).sort({ requestedAt: -1 });
   },
 
-  /**
-   * Get a driver's ride history (completed and accepted/active rides).
-   */
+
   getDriverRideHistory: async (
     driverId: Types.ObjectId
   ): Promise<IRide> => {
@@ -333,16 +316,12 @@ export const RideService = {
     return Ride.find({ driverId: driverProfile._id }).sort({ requestedAt: -1 });
   },
 
-  /**
-   * Get all rides (Admin only).
-   */
+
   getAllRides: async (): Promise<IRide> => {
     return Ride.find().sort({ requestedAt: -1 });
   },
 
-  /**
-   * Find available drivers near a location (for potential auto-matching or driver view).
-   */
+ 
   findAvailableDrivers: async (
     latitude: number,
     longitude: number,
@@ -364,9 +343,7 @@ export const RideService = {
     });
   },
 
-  /**
-   * Get a single ride by ID.
-   */
+ 
   getRideById: async (rideId: Types.ObjectId): Promise<IRide | null> => {
     return Ride.findById(rideId);
   },

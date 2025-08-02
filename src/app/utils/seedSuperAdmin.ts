@@ -28,7 +28,7 @@ export const seedSuperAdmin = async () => {
             email: envVars.SUPER_ADMIN_EMAIL,
             password: hashPassword,
             auths: authProvider,
-            role: Role.ADMIN,
+            role: Role.SUPER_ADMIN,
         });
         console.log("Super Admin created successfully");
     } catch (error) {

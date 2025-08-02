@@ -6,6 +6,7 @@ export interface IAuthProvider {
 }
 
 export enum Role {
+    SUPER_ADMIN = "SUPER_ADMIN",
     ADMIN = "ADMIN",
     RIDER = "RIDER",
     DRIVER = "DRIVER",
@@ -19,7 +20,7 @@ export enum IsActive {
 
 export interface IUser {
     _id: Types.ObjectId;
-    name?: string;
+    name: string;
     email: string;
     password?: string;
     phone?: string;

@@ -1,11 +1,33 @@
+
+import { z } from "zod";
 import { Types } from "mongoose";
-import z from "zod";
+import { locationSchema } from "../driverProfile/driver.validation";
 
+export const createRiderProfileZodSchema = z.object({
+  body: z.object({
+    userId: z.string().refine(val => Types.ObjectId.isValid(val), {
+      message: "Invalid User ID format"
+    }),
+    phone: z.string().optional(), 
+    picture: z.string().url({ message: "Invalid URL format for profile picture" }).optional(),
+    paymentMethod: z.string().optional(),
+    location: locationSchema.optional(), 
+  }),
+});
 
-export const riderProfileSchema = z.object({
-  userId: z.string().refine(val => Types.ObjectId.isValid(val), "Invalid User ID format").optional(), 
-  paymentMethod: z.string().optional(),
-  locations: z.string().optional(),
-  picture: z.string().url("Invalid URL format for profile picture").optional(),
-  phone: z.string().optional(), 
+export const updateRiderProfileZodSchema = z.object({
+  body: z.object({
+    phone: z.string().optional(),
+    picture: z.string().url({ message: "Invalid URL format for profile picture" }).optional(),
+    paymentMethod: z.string().optional(),
+    location: locationSchema.optional(),
+  }).partial(),
+});
+
+export const getRiderProfileByIdZodSchema = z.object({
+  params: z.object({
+    id: z.string().refine(val => Types.ObjectId.isValid(val), {
+      message: "Invalid Rider Profile ID format"
+    }),
+  }),
 });

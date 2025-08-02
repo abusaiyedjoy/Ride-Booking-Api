@@ -63,20 +63,19 @@ router.get(
 // Admin-specific routes
 router.patch(
   '/admin/:id/status',
-  checkAuth(Role.ADMIN),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   validateRequest(adminUpdateRideStatusZodSchema),
   rideController.adminUpdateRideStatus
 );
 router.get(
   '/admin',
-  checkAuth(Role.ADMIN),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   rideController.getAllRides
 );
 
-// Shared route: Allow all authenticated roles to attempt to view
 router.get(
   '/:id',
-  checkAuth(Role.ADMIN, Role.DRIVER, Role.RIDER),
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DRIVER, Role.RIDER),
   rideController.getRideById
 );
 
