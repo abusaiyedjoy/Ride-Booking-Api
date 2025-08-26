@@ -22,6 +22,7 @@ export const createUserZodSchema = z.object({
           "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
       }
     ),
+  role: z.enum(Object.values(Role) as [string]),
   phone: z
     .string({ invalid_type_error: "Phone Number must be string" })
     .regex(/^(?:\+8801\d{9}|01\d{9})$/, {

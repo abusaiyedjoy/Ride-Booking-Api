@@ -15,6 +15,14 @@ import { Role } from '../user/user.interface';
 const router = Router();
 
 const rideController = RideController;
+// Rider-specific routes
+
+router.post(
+  '/request',
+  checkAuth(Role.RIDER),
+  validateRequest(requestRideZodSchema),
+  rideController.requestRide
+);
 
 router.get(
   '/drivers/available',
@@ -22,13 +30,6 @@ router.get(
   rideController.findAvailableDrivers
 );
 
-// Rider-specific routes
-router.post(
-  '/request',
-  checkAuth(Role.RIDER),
-  validateRequest(requestRideZodSchema),
-  rideController.requestRide
-);
 router.patch(
   '/:id/cancel',
   checkAuth(Role.RIDER),

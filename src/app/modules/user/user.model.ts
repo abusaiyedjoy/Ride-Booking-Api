@@ -25,7 +25,7 @@ const userSchema = new Schema<IUser>(
       enum: Object.values(IsActive),
       default: IsActive.ACTIVE,
     },
-    role: { type: String, enum: Object.values(Role), default: Role.RIDER },
+    role: { type: String, enum: Object.values(Role) },
     auth: [authProviderSchema],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
