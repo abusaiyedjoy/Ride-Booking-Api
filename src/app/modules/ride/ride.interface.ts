@@ -1,41 +1,34 @@
 import { Types } from "mongoose";
+import { ILocation } from "../driverProfile/driver.interface";
+
 
 export enum RideStatus {
-  Requested = "requested",
-  Accepted = "accepted",
-  PickedUp = "picked_up",
-  InTransit = "in_transit",
-  Completed = "completed",
-  Cancelled = "cancelled",
+    REQUESTED = "REQUESTED",
+    ACCEPTED = "ACCEPTED",
+    PICKED_UP = "PICKED_UP",
+    IN_TRANSIT = "IN_TRANSIT",
+    COMPLETED = "COMPLETED",
+    CANCELLED = "CANCELLED",
+    NO_DRIVER_FOUND = "NO_DRIVER_FOUND",
 }
 
-export type TRideStatus = RideStatus; 
 
 export interface IRide {
   riderId: Types.ObjectId;
-  driverId?: Types.ObjectId;
-  pickup: {
-    lat: number;
-    lng: number;
-    address: string;
-  };
-  destination: {
-    lat: number;
-    lng: number;
-    address: string;
-  };
+  driverId?: Types.ObjectId; 
+  pickupLocation: ILocation; 
+  destinationLocation: ILocation; 
+  requestedAt: Date;
+  acceptedAt?: Date;
+  pickedUpAt?: Date;
+  inTransitAt?: Date;
+  completedAt?: Date;
+  cancelledAt?: Date;
   status: RideStatus;
-  history: {
-    status: RideStatus;
-    timestamp: Date;
-  }[];
-  fare: number;
-  distance: number;
-  duration: number;
-  rating?: {
-    riderRating?: number;
-    driverRating?: number;
-  };
+  fare?: number;
+  cancellationReason?: string;
+  riderRating?: number; 
+  driverRating?: number; 
   createdAt: Date;
   updatedAt: Date;
 }

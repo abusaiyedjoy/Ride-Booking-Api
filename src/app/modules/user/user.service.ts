@@ -17,7 +17,7 @@ const createUser = async (payload: Partial<IUser>) => {
 
   const hashedPassword = await bcryptjs.hash(
     password as string,
-    envVars.BCRYPT_SALT_ROUNDS
+    Number(envVars.BCRYPT_SALT_ROUND)
   );
 
   const authProvider: IAuthProvider[] = [
@@ -50,18 +50,17 @@ const getAllUsers = async () => {
 };
 
 const getSingleUser = async (id: string) => {
-    const user = await User.findById(id);
-    return {
-        data: user
-    }
+  const user = await User.findById(id);
+  return {
+    data: user,
+  };
 };
 const getMe = async (userId: string) => {
-    const user = await User.findById(userId);
-    return {
-        data: user
-    }
+  const user = await User.findById(userId);
+  return {
+    data: user,
+  };
 };
-
 
 const updateUser = async (
   userId: string,
@@ -79,12 +78,15 @@ const updateUser = async (
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
 
-    if (decodedToken.role === Role.ADMIN || decodedToken.role === Role.SUPER_ADMIN) {
+    if (
+      decodedToken.role === Role.ADMIN ||
+      decodedToken.role === Role.SUPER_ADMIN
+    ) {
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
   }
 
-  if (payload.isActive ) {
+  if (payload.isActive) {
     if (decodedToken.role === Role.DRIVER || decodedToken.role === Role.RIDER) {
       throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized");
     }
@@ -92,7 +94,7 @@ const updateUser = async (
   if (payload.password) {
     payload.password = await bcryptjs.hash(
       payload.password as string,
-      envVars.BCRYPT_SALT_ROUNDS
+      Number(envVars.BCRYPT_SALT_ROUND)
     );
   }
   const updatedUser = await User.findByIdAndUpdate(userId, payload, {
