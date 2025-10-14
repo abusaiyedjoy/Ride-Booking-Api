@@ -15,7 +15,7 @@ export const handleZodError = (err:any): TGenericErrorResponse => {
     return {
         statusCode: 400,
         success: false,
-        message: "Validation Error",
+        message: "Zod Validation Error",
         errorMessages: errorResource
     };
 }

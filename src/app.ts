@@ -23,9 +23,21 @@ app.use(express.json())
 app.set("trust proxy", 1);
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: envVars.FRONTEND_URL,
-    credentials: true
-}))
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "http://localhost:3000",
+    "https://ride-booking-chi.vercel.app",
+      "https://ride-booking-management.netlify.app"
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 
 app.use("/api/v1", router)
 

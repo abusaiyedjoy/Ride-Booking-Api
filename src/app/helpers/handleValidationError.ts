@@ -14,7 +14,7 @@ export const handleValidationError = (err:mongoose.Error.ValidationError): TGene
     return {
         statusCode: 400,
         success: false,
-        message: "Validation Error",
+        message: "Validation Error From Error Handaler",
         errorMessages: errorResource
     }
     
